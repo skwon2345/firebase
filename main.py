@@ -1,16 +1,11 @@
 from flask import Flask, render_template, jsonify, request
 #database 
+#database 
 import firebase_admin
-from firebase_admin import credentials, firestore
-import os
+from firebase_admin import credentials, firestore, initialize_app
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=r"C:\Users\Administrator\Desktop\stock\stocktrading-14119-2c743d2f58b4.json" # r converts normal string to raw string. (raw string is necessary for file path) 
-
-cred = credentials.ApplicationDefault()
-firebase_admin.initialize_app(cred, {
-  'projectId': 'stocktrading-14119',
-})
-
+cred = credentials.Certificate('key.json')
+default_app = initialize_app(cred)
 db = firestore.client()
 
 app = Flask(__name__)
