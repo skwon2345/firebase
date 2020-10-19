@@ -1,10 +1,6 @@
 #database 
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app
-<<<<<<< HEAD
-=======
-import json
->>>>>>> f33ebed06667d0661e62c459baae246f86d3b2d8
 
 #dotenv
 import os
@@ -14,9 +10,6 @@ from dotenv import load_dotenv
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-<<<<<<< HEAD
-key = os.environ.get("DB_KEY")
-=======
 key = {
   "type": "service_account",
   "project_id": os.environ.get("FIREBASE_PROJECT_ID"),
@@ -29,7 +22,6 @@ key = {
   "auth_provider_x509_cert_url": os.environ.get("FIREBASE_AUTH_CERT_URL"),
   "client_x509_cert_url": os.environ.get("FIREBASE_CLIENT_CERT_URL")
 }
->>>>>>> f33ebed06667d0661e62c459baae246f86d3b2d8
 
 cred = credentials.Certificate(key)
 default_app = initialize_app(cred)
