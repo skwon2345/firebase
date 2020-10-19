@@ -1,3 +1,4 @@
+from flask_cors import CORS
 from flask import Flask, render_template, jsonify, request
 #database 
 #database 
@@ -9,6 +10,9 @@ default_app = initialize_app(cred)
 db = firestore.client()
 
 app = Flask(__name__)
+
+# Settings
+CORS(app)
 
 @app.route('/')
 def hello():
@@ -24,6 +28,29 @@ def hello():
         print(e)
         return f"An Error Occured: {e}"
     return 'Hello World!'
+
+@app.route('/users', methods=['POST'])
+def createUser():
+    print(request.json)
+    try:
+        doc_ref_overall = db.collection(u'test11').document('fe')
+        doc_ref_overall.set(request.json)
+        print("efe")
+
+        return jsonify({"success":True}), 200
+    except Exception as e:
+        print("fesf")
+        print(e)
+        return f"An Error Occured: {e}"
+        
+
+@app.route('/users', methods=['GET'])
+def getUsers():
+    try:
+        todo = db.collection(u'test11').document('fe').get()
+        return jsonify(todo.to_dict()), 200
+    except Exception as e:
+        return f"An Error Occured; {e}"
 
 if __name__=='__main__':
     app.run(host='127.0.0.1', port=8088, debug=True)
