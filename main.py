@@ -53,7 +53,7 @@ def getUsers():
 @app.route('/storage',methods=['GET'])
 def getStorageFile():
     try:
-        urls = conn.db.collection(u'files').order_by(u'date', direction=firestore.Query.ASCENDING).limit(3).stream()
+        urls = conn.db.collection(u'files').order_by(u'date', direction=firestore.Query.DESCENDING).limit(10).stream()
 
         my_dict = [url.to_dict() for url in urls]
         return jsonify(my_dict), 200
@@ -61,6 +61,6 @@ def getStorageFile():
         return f"An Error occured: {e}"
 
 if __name__=='__main__':
-    app.run(host='0.0.0.0', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
+    app.run(host='127.0.0.1', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
 
 
