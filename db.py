@@ -1,7 +1,6 @@
 #database 
 import firebase_admin
 from firebase_admin import storage, credentials, firestore, initialize_app
-import firebase
 
 #dotenv
 import os
