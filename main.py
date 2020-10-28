@@ -47,17 +47,17 @@ def sendEmail(email_receiver):
 
 @app.route('/')
 def hello():
-    try:
-        doc_ref_overall = conn.db.collection(u'test11').document('aaa')
-        doc_ref_overall.set({
-           'name':'los angefles'
-        })
+    # try:
+    #     doc_ref_overall = conn.db.collection(u'test11').document('aaa')
+    #     doc_ref_overall.set({
+    #        'name':'los angefles'
+    #     })
 
-        return jsonify({"success":True}), 200
-    except Exception as e:
-        print("Error")
-        print(e)
-        return f"An Error Occured: {e}"
+    #     return jsonify({"success":True}), 200
+    # except Exception as e:
+    #     print("Error")
+    #     print(e)
+    #     return f"An Error Occured: {e}"
     return 'Hello World!'
 
 @app.route('/users', methods=['POST'])
@@ -95,7 +95,7 @@ def getStorageFile():
     except Exception as e:
         return f"An Error occured: {e}"
 
-if __name__=='__main__':
-    app.run(host='0.0.0.0', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
+# if __name__=='__main__':
+#     app.run(host='127.0.0.1', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
 
 
