@@ -8,7 +8,6 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
-
 import urllib.request
 import datetime 
 import requests

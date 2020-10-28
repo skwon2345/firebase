@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask import Flask, render_template, jsonify, request
 
 #database
-import db as conn
+# import db as conn
 from firebase_admin import firestore
 
 app = Flask(__name__)
