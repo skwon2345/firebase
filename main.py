@@ -10,7 +10,7 @@ from firebase_admin import firestore
 import FinanceDataReader as fdr
 import numpy as np
 
-import time
+# import time
 
 app = Flask(__name__)
 
@@ -80,7 +80,7 @@ def getStorageFile():
 @app.route('/api/data',methods=['GET'])
 def testStockAPI():
     dataToSend = []
-    start = time.time()
+    # start = time.time()
     for ticker in tickers:
         print(ticker)
         try:
@@ -112,10 +112,10 @@ def testStockAPI():
 
     a = df.head(5).to_dict('index')
     a = {str(k)[:10]:v for k,v in a.items()}
-    timeTaken = time.time() - start
-    dataToSend.insert(0, str(timeTaken))
+    # timeTaken = time.time() - start
+    # dataToSend.insert(0, str(timeTaken))
     print(dataToSend)
-    print(timeTaken)
+    # print(timeTaken)
     return jsonify(dataToSend), 200
 
     
