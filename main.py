@@ -18,8 +18,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-tickers = fdr.StockListing('KOSPI')['Symbol'].values
-stckListing = fdr.StockListing('KOSPI')
+
 
 
 def calcSMA (values, window):
@@ -79,6 +78,8 @@ def getStorageFile():
 
 @app.route('/api/data',methods=['GET'])
 def testStockAPI():
+    tickers = fdr.StockListing('KOSPI')['Symbol'].values
+    stckListing = fdr.StockListing('KOSPI')
     dataToSend = []
     count = 0 
     # start = time.time()
