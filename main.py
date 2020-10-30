@@ -7,7 +7,7 @@ import db as conn
 from firebase_admin import firestore
 
 #stock data
-# import FinanceDataReader as fdr
+import FinanceDataReader as fdr
 # import numpy as np
 
 # import time
@@ -18,8 +18,8 @@ app = Flask(__name__)
 CORS(app)
 
 
-# tickers = fdr.StockListing('KOSPI')['Symbol'].values
-# stckListing = fdr.StockListing('KOSPI')
+tickers = fdr.StockListing('KOSPI')['Symbol'].values
+stckListing = fdr.StockListing('KOSPI')
 
 
 def calcSMA (values, window):
