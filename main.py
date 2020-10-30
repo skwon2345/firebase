@@ -80,8 +80,11 @@ def getStorageFile():
 @app.route('/api/data',methods=['GET'])
 def testStockAPI():
     dataToSend = []
+    count = 0 
     # start = time.time()
     for ticker in tickers:
+        if count > 10:
+            break
         print(ticker)
         try:
             if len(ticker) <= 6:
@@ -109,6 +112,7 @@ def testStockAPI():
         sma_200 = calcSMA(sma_df, 200)
         if sma_5[1] < sma_10[1] and sma_5[0] > sma_10[0]:
             dataToSend.append(ticker)
+        count = count + 1
 
     a = df.head(5).to_dict('index')
     a = {str(k)[:10]:v for k,v in a.items()}
