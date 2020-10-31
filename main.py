@@ -10,16 +10,46 @@ from firebase_admin import firestore
 import FinanceDataReader as fdr
 import numpy as np
 
-# import time
+# E-mail
+import os
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
 app = Flask(__name__)
 
 # Settings
 CORS(app)
 
+def sendEmail():
+    email_user = 'josephonsk@gmail.com'     
+    email_password = 'dhstjrrn00'
+##    email_send = 'joohyeong1211@gmail.com'
+##    email_send = '69ij@naver.com'
+    email_send = 'sklass2345@gmail.com'
+##    email_send = 'onyoung@chol.com'
+    # email_send = 'hwjiyoon@naver.com'
+    # 제목
+    subject = '분석 결과' 
 
+    msg = MIMEMultipart()
+    msg['From'] = email_user
+    msg['To'] = email_send
+    msg['Subject'] = subject
 
+    # 본문 내용
+    body = "온석권"
+    msg.attach(MIMEText(body,'plain'))
 
+    text = msg.as_string()
+    server = smtplib.SMTP_SSL('smtp.gmail.com',465)
+
+    server.login(email_user,email_password)
+
+    server.sendmail(email_user,email_send,text)
+    server.quit()
 
 def calcSMA (values, window):
 	weights = np.repeat(1.0, window)/ window
@@ -30,6 +60,7 @@ def calcSMA (values, window):
 @app.route('/')
 def hello():
     try:
+        sendEmail()
         doc_ref_overall = conn.db.collection(u'test11').document('aaa')
         doc_ref_overall.set({
            'name':'los angefles'
