@@ -25,7 +25,7 @@ CORS(app)
 
 def sendEmail():
     email_user = 'josephonsk@gmail.com'     
-    email_password = 'dhstjrrn00'
+    email_password = 'Dhstjrrn00@'
 ##    email_send = 'joohyeong1211@gmail.com'
 ##    email_send = '69ij@naver.com'
     email_send = 'sklass2345@gmail.com'
