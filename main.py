@@ -166,7 +166,10 @@ def testStockAPI():
 def contactToMe():
     try:
         reqData = request.json
-        sendEmail(reqData['_name'],reqData['email'],reqData['message'])
+        today = str(datetime.date.today())
+        docName = reqData['_name']+'_'+today
+        doc_ref_overall = conn.db.collection(u'contact').document(docName)
+        doc_ref_overall.set(reqData)
 
         return jsonify({"success":True}), 200
 
