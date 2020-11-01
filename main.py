@@ -31,7 +31,7 @@ CORS(app)
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-def sendEmail():
+def sendEmail(name, emailAddress, content):
     email_user = 'josephonsk@gmail.com'     
     email_password = os.environ.get("MAIL_PASSWORD")
 ##    email_send = 'joohyeong1211@gmail.com'
@@ -40,7 +40,7 @@ def sendEmail():
 ##    email_send = 'onyoung@chol.com'
     # email_send = 'hwjiyoon@naver.com'
     # 제목
-    subject = '분석 결과' 
+    subject = 'Contact from ' + name 
 
     msg = MIMEMultipart()
     msg['From'] = email_user
@@ -48,7 +48,7 @@ def sendEmail():
     msg['Subject'] = subject
 
     # 본문 내용
-    body = "온석권"
+    body = 'Email to reply: '+emailAddress+'\n\n'+content
     msg.attach(MIMEText(body,'plain'))
 
     text = msg.as_string()
@@ -162,6 +162,19 @@ def testStockAPI():
     return jsonify(dataToSend), 200
 
     
+@app.route('/contact', methods=['POST'])
+def contactToMe():
+    try:
+        reqData = request.json
+        sendEmail(reqData['_name'],reqData['email'],reqData['message'])
+
+        return jsonify({"success":True}), 200
+
+    except Exception as e:
+        print("Error")
+        print(e)
+        return f"An Error Occured: {e}"
+
 
 if __name__=='__main__':
     app.run(host='127.0.0.1', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
