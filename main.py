@@ -18,14 +18,22 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 
+#dotenv
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
 app = Flask(__name__)
 
 # Settings
 CORS(app)
 
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
 def sendEmail():
     email_user = 'josephonsk@gmail.com'     
-    email_password = 'Dhstjrrn00@'
+    email_password = os.environ.get("MAIL_PASSWORD")
 ##    email_send = 'joohyeong1211@gmail.com'
 ##    email_send = '69ij@naver.com'
     email_send = 'sklass2345@gmail.com'
@@ -60,11 +68,10 @@ def calcSMA (values, window):
 @app.route('/')
 def hello():
     try:
-        sendEmail()
         doc_ref_overall = conn.db.collection(u'test11').document('aaa')
         doc_ref_overall.set({
            'name':'los angefles'
-        })
+})
 
         return jsonify({"success":True}), 200
     except Exception as e:
