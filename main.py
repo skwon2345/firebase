@@ -42,7 +42,7 @@ def sendEmail(name, emailAddress, content):
     # 제목
     subject = 'Contact from ' + name 
 
-    msg = MIMEMultipart()
+    msg = MIMEMultipart('alternative')
     msg['From'] = email_user
     msg['To'] = email_send
     msg['Subject'] = subject
