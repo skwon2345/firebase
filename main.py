@@ -23,6 +23,8 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
+import datetime
+
 app = Flask(__name__)
 
 # Settings
@@ -167,7 +169,7 @@ def contactToMe():
     try:
         reqData = request.json
         today = str(datetime.date.today())
-        docName = reqData['_name']+'_'+today
+        docName = today+'_'+reqData['_name']
         doc_ref_overall = conn.db.collection(u'contact').document(docName)
         doc_ref_overall.set(reqData)
 
