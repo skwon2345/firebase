@@ -28,8 +28,8 @@ import base64
 import uuid
 import cv2
 from PIL import Image
-from keras.preprocessing.image import img_to_array
-from keras.preprocessing import image
+# from keras.preprocessing.image import img_to_array
+# from keras.preprocessing import image
 import joblib
 
 
@@ -70,6 +70,36 @@ load_dotenv(dotenv_path)
 
 #     server.sendmail(email_user,email_send,text)
 #     server.quit()
+
+def img_to_array(img, data_format='channels_last', dtype='float32'):
+    """Converts a PIL Image instance to a Numpy array.
+    # Arguments
+        img: PIL Image instance.
+        data_format: Image data format,
+            either "channels_first" or "channels_last".
+        dtype: Dtype to use for the returned array.
+    # Returns
+        A 3D Numpy array.
+    # Raises
+        ValueError: if invalid `img` or `data_format` is passed.
+    """
+    if data_format not in {'channels_first', 'channels_last'}:
+        raise ValueError('Unknown data_format: %s' % data_format)
+    # Numpy array x has format (height, width, channel)
+    # or (channel, height, width)
+    # but original PIL image has format (width, height, channel)
+    x = np.asarray(img, dtype=dtype)
+    if len(x.shape) == 3:
+        if data_format == 'channels_first':
+            x = x.transpose(2, 0, 1)
+    elif len(x.shape) == 2:
+        if data_format == 'channels_first':
+            x = x.reshape((1, x.shape[0], x.shape[1]))
+        else:
+            x = x.reshape((x.shape[0], x.shape[1], 1))
+    else:
+        raise ValueError('Unsupported image shape: %s' % (x.shape,))
+    return x
 
 def calcSMA (values, window):
 	weights = np.repeat(1.0, window)/ window
@@ -203,10 +233,9 @@ def uploadImageBASE64():
             f.write(decoded_file)
         
         img = Image.open(path)
-        img_array = image.img_to_array(img)
+        img_array = img_to_array(img)
         print(img_array)
         print(img_array.shape) #(800, 798, 4)
-
 
         new_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
         dim = (8,8) #have to shrink img to 28*28
@@ -219,14 +248,11 @@ def uploadImageBASE64():
         ans = model.predict([result])
         print(model.predict([result]))
 
-
         return jsonify({"success":int(ans[0])}), 200
 
     except Exception as e:
         print(e)
         return f"An Error Occured: {e}"
-
-
 
 if __name__=='__main__':
     app.run(host='127.0.0.1', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
