@@ -23,6 +23,16 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
+#mnist image
+import base64
+import uuid
+import cv2
+from PIL import Image
+from keras.preprocessing.image import img_to_array
+from keras.preprocessing import image
+import joblib
+
+
 import datetime
 
 app = Flask(__name__)
@@ -179,6 +189,43 @@ def contactToMe():
         print("Error")
         print(e)
         return f"An Error Occured: {e}"
+
+@app.route('/api/mnist', methods=['POST'])
+def uploadImageBASE64():
+    try:
+        reqData = request.json
+        data = reqData['image']
+        _format, str_img = data.split(';base64')
+        decoded_file = base64.b64decode(str_img)
+        fname = f"{str(uuid.uuid4())[:10]}.png"
+        path = './images/'+ fname
+        with open(path,'wb') as f:
+            f.write(decoded_file)
+        
+        img = Image.open(path)
+        img_array = image.img_to_array(img)
+        print(img_array)
+        print(img_array.shape) #(800, 798, 4)
+
+
+        new_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
+        dim = (8,8) #have to shrink img to 28*28
+        resized = cv2.resize(new_img, dim, interpolation = cv2.INTER_AREA)
+        print(resized.shape) # (8,8)
+
+        result = resized.flatten()
+
+        model = joblib.load('./mnist_model_joblib')
+        ans = model.predict([result])
+        print(model.predict([result]))
+
+
+        return jsonify({"success":int(ans[0])}), 200
+
+    except Exception as e:
+        print(e)
+        return f"An Error Occured: {e}"
+
 
 
 if __name__=='__main__':
