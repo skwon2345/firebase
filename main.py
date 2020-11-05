@@ -31,6 +31,7 @@ from PIL import Image
 # from keras.preprocessing.image import img_to_array
 # from keras.preprocessing import image
 import joblib
+import io
 
 
 import datetime
@@ -227,12 +228,12 @@ def uploadImageBASE64():
         data = reqData['image']
         _format, str_img = data.split(';base64')
         decoded_file = base64.b64decode(str_img)
-        fname = f"{str(uuid.uuid4())[:10]}.png"
-        path = './images/'+ fname
-        with open(path,'wb') as f:
-            f.write(decoded_file)
+        # fname = f"{str(uuid.uuid4())[:10]}.png"
+        # path = './images/'+ fname
+        # with open(path,'wb') as f:
+        #     f.write(decoded_file)
         
-        img = Image.open(path)
+        img = Image.open(io.BytesIO(decoded_file))
         img_array = img_to_array(img)
         print(img_array)
         print(img_array.shape) #(800, 798, 4)
