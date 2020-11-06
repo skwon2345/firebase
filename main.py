@@ -25,7 +25,6 @@ from dotenv import load_dotenv
 
 #mnist image
 import base64
-import uuid
 import cv2
 from PIL import Image
 # from keras.preprocessing.image import img_to_array
@@ -221,17 +220,13 @@ def contactToMe():
         print(e)
         return f"An Error Occured: {e}"
 
-@app.route('/api/mnist', methods=['POST'])
+@app.route('/api/digit-classification', methods=['POST'])
 def uploadImageBASE64():
     try:
         reqData = request.json
         data = reqData['image']
         _format, str_img = data.split(';base64')
         decoded_file = base64.b64decode(str_img)
-        # fname = f"{str(uuid.uuid4())[:10]}.png"
-        # path = './images/'+ fname
-        # with open(path,'wb') as f:
-        #     f.write(decoded_file)
         
         img = Image.open(io.BytesIO(decoded_file))
         img_array = img_to_array(img)
