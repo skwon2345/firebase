@@ -6,18 +6,6 @@ from flask import Flask, render_template, jsonify, request
 import db as conn
 from firebase_admin import firestore
 
-#stock data
-# import FinanceDataReader as fdr
-import numpy as np
-
-# # E-mail
-# import os
-# import smtplib
-# from email.mime.text import MIMEText
-# from email.mime.multipart import MIMEMultipart
-# from email.mime.base import MIMEBase
-# from email import encoders
-
 #dotenv
 import os
 from os.path import join, dirname
@@ -27,13 +15,11 @@ from dotenv import load_dotenv
 import base64
 import cv2
 from PIL import Image
-# from keras.preprocessing.image import img_to_array
-# from keras.preprocessing import image
 import joblib
 import io
 
-
 import datetime
+import numpy as np
 
 app = Flask(__name__)
 
@@ -156,53 +142,6 @@ def getStorageFile():
     except Exception as e:
         return f"An Error occured: {e}"
 
-# @app.route('/api/data',methods=['GET'])
-# def testStockAPI():
-#     tickers = fdr.StockListing('KOSPI')['Symbol'].values
-#     stckListing = fdr.StockListing('KOSPI')
-#     dataToSend = []
-#     count = 0 
-#     # start = time.time()
-#     for ticker in tickers:
-#         if count > 10:
-#             break
-#         print(ticker)
-#         try:
-#             if len(ticker) <= 6:
-#                 df_reverse = fdr.DataReader(ticker)
-#                 df = df_reverse.iloc[::-1]
-#                 if len(df) < 200:
-#                         continue
-#             else:
-#                 continue
-# ##  df, meta_data = ts.get_intraday(symbol=ticker,interval='60min', outputsize='full')
-#         except Exception as e:
-#             return f"An Error occured: {e}"
-
-#         selectedStck = stckListing.loc[stckListing['Symbol']==str(ticker)]
-#         stckMarket = str(selectedStck['Market'].values[0])
-
-#         if stckMarket == "KONEX":
-#                 continue
-#         sma_df = df['Close']
-#         sma_5 = calcSMA(sma_df, 5)
-#         sma_10 = calcSMA(sma_df, 10)
-#         sma_20 = calcSMA(sma_df, 20)
-#         sma_60 = calcSMA(sma_df, 60)
-#         sma_120 = calcSMA(sma_df, 120)
-#         sma_200 = calcSMA(sma_df, 200)
-#         if sma_5[1] < sma_10[1] and sma_5[0] > sma_10[0]:
-#             dataToSend.append(ticker)
-#         count = count + 1
-
-#     a = df.head(5).to_dict('index')
-#     a = {str(k)[:10]:v for k,v in a.items()}
-#     # timeTaken = time.time() - start
-#     # dataToSend.insert(0, str(timeTaken))
-#     print(dataToSend)
-#     # print(timeTaken)
-#     return jsonify(dataToSend), 200
-
     
 @app.route('/contact', methods=['POST'])
 def contactToMe():
@@ -232,8 +171,8 @@ def uploadImageBASE64():
         img_array = img_to_array(img)
 
         new_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
-        dim = (8,8) # sklearn.dataset has to shrink img to 8*8
-        # dim = (28,28) # keras.dataset has to shrink img to 28*28
+        # dim = (8,8) # sklearn.dataset has to shrink img to 8*8
+        dim = (28,28) # keras.dataset has to shrink img to 28*28
         resized = cv2.resize(new_img, dim, interpolation = cv2.INTER_AREA)
 
         print(resized.shape) # (8,8) for sklearn (28,28) for keras
@@ -242,7 +181,9 @@ def uploadImageBASE64():
 
         print(result.shape) # (64,0) for sklearn (784,0) for keras
 
-        model = joblib.load('./models/sklearn_model_joblib') # model trained with sklearn.dataset
+        model = joblib.load('./models/keras_random_forest_joblib') # model trained with keras.dataset using random forest algorithm
+        # model = joblib.load('./models/sklearn_svm_model_joblib') # model trained with sklearn.dataset using Support Vector Machine
+        # model = joblib.load('./models/sklearn_model_joblib') # model trained with sklearn.dataset using Logistic Regression
         # model = joblib.load('./models/keras_model_joblib') # model trained with kears.dataset
         ans = model.predict([result])
         print(model.predict([result]))
