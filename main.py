@@ -232,16 +232,18 @@ def uploadImageBASE64():
         img_array = img_to_array(img)
 
         new_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
-        dim = (8,8) #have to shrink img to 28*28
+        # dim = (8,8) # sklearn.dataset has to shrink img to 8*8
+        dim = (28,28) # keras.dataset has to shrink img to 28*28
         resized = cv2.resize(new_img, dim, interpolation = cv2.INTER_AREA)
 
-        print(resized.shape) # (8,8)
+        print(resized.shape) # (8,8) for sklearn (28,28) for keras
 
         result = resized.flatten()
 
         print(result.shape) # (64,0)
 
-        model = joblib.load('./mnist_model_joblib')
+        # model = joblib.load('./models/sklearn_model_joblib') # model trained with sklearn.dataset
+        model = joblib.load('./models/keras_model_joblib') # model trained with kears.dataset
         ans = model.predict([result])
         print(model.predict([result]))
 
