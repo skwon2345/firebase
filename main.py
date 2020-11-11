@@ -11,6 +11,9 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
+#stock
+import FinanceDataReader as fdr
+
 #mnist image
 import base64
 import cv2
@@ -195,6 +198,25 @@ def uploadImageBASE64():
         print(e)
         return f"An Error Occured: {e}"
 
+@app.route('/api/buySignal', methods=['GET'])
+def getBuySignals():
+    try:
+        
+        bSignals = conn.db.collection(u'history').where(u'recommended', u'==', False).stream()
+        my_dict = []
+        today = str(datetime.date.today())
+        for s in bSignals:
+            tmp = s.to_dict()
+            df_reverse = fdr.DataReader(tmp['code'], today)
+            df = df_reverse.iloc[::-1]
+            tmp['_id'] = s.id
+            tmp['current_price'] = int(df['Close'][0])
+            tmp['profit'] = "{:.2f}".format((tmp['current_price']-tmp['bPrice'])/tmp['bPrice']*100)
+            my_dict.append(tmp)
+ 
+        return jsonify(my_dict), 200
+    except Exception as e:
+        return f"An Error Occured; {e}"
 if __name__=='__main__':
     app.run(host='127.0.0.1', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
 
