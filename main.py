@@ -198,10 +198,9 @@ def uploadImageBASE64():
         print(e)
         return f"An Error Occured: {e}"
 
-@app.route('/api/buySignal', methods=['GET'])
+@app.route('/buySignal', methods=['GET'])
 def getBuySignals():
     try:
-        
         bSignals = conn.db.collection(u'history').where(u'recommended', u'==', False).order_by(u'date', direction=firestore.Query.DESCENDING).limit(10).stream()
         my_dict = []
         today = str(datetime.date.today())
@@ -214,7 +213,7 @@ def getBuySignals():
             tmp['profit'] = "{:.2f}".format((tmp['current_price']-tmp['bPrice'])/tmp['bPrice']*100)
             my_dict.append(tmp)
  
-        return jsonify(my_dict), 200
+        return jsonify(my_dict), 500
     except Exception as e:
         return f"An Error Occured; {e}"
 if __name__=='__main__':
