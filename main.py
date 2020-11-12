@@ -213,9 +213,10 @@ def getBuySignals():
             tmp['profit'] = "{:.2f}".format((tmp['current_price']-tmp['bPrice'])/tmp['bPrice']*100)
             my_dict.append(tmp)
  
-        return jsonify(my_dict), 500
+        return jsonify(my_dict), 200
     except Exception as e:
         return f"An Error Occured; {e}"
+
 if __name__=='__main__':
     app.run(host='127.0.0.1', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
 
