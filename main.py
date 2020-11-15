@@ -191,8 +191,9 @@ def uploadImageBASE64():
         # model = joblib.load('./models/keras_model_joblib') # model trained with kears.dataset
         ans = model.predict([result])
         print(model.predict([result]))
-
-        return jsonify({"success":int(ans[0])}), 200
+        response = jsonify({"success":int(ans[0])})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response, 200
 
     except Exception as e:
         print(e)
