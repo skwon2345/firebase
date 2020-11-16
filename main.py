@@ -202,11 +202,9 @@ def uploadImageBASE64():
 @app.route('/buySignal', methods=['GET'])
 def getBuySignals():
     try:
-        print('1')
         bSignals = conn.db.collection(u'history').where(u'recommended', u'==', False).order_by(u'date', direction=firestore.Query.DESCENDING).limit(10).stream()
         my_dict = []
         today = str(datetime.date.today())
-        print('2')
         for s in bSignals:
             tmp = s.to_dict()
             df_reverse = fdr.DataReader(tmp['code'], 2020)
@@ -220,10 +218,10 @@ def getBuySignals():
         response.headers.add('Access-Control-Allow-Origin', '*')
 
         return response, 200
-        
+
     except Exception as e:
         return f"An Error Occured; {e}"
 
 if __name__=='__main__':
-    app.run(host='127.0.0.1', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
+    app.run(host='0.0.0.0', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
 
