@@ -192,7 +192,7 @@ def uploadImageBASE64():
         ans = model.predict([result])
         print(model.predict([result]))
         response = jsonify({"success":int(ans[0])})
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        #response.headers.add('Access-Control-Allow-Origin', '*')
         return response, 200
 
     except Exception as e:
@@ -223,5 +223,5 @@ def getBuySignals():
         return f"An Error Occured; {e}"
 
 if __name__=='__main__':
-    app.run(host='127.0.0.1', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
+    app.run(host='0.0.0.0', port=8088, debug=True) # deploy host; 0.0.0.0 , development host: 127.0.0.2
 
