@@ -192,7 +192,7 @@ def uploadImageBASE64():
         ans = model.predict([result])
         print(model.predict([result]))
         response = jsonify({"success":int(ans[0])})
-        #response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Origin', '*')
         return response, 200
 
     except Exception as e:
