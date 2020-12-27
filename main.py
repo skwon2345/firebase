@@ -214,10 +214,10 @@ def getBuySignals():
             tmp['profit'] = "{:.2f}".format((tmp['current_price']-tmp['bPrice'])/tmp['bPrice']*100)
             my_dict.append(tmp)
         
-        response = jsonify(my_dict)
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        # response = 
+        # response.headers.add('Access-Control-Allow-Origin', '*')
 
-        return response, 200
+        return jsonify(my_dict), 200
 
     except Exception as e:
         return f"An Error Occured; {e}"
