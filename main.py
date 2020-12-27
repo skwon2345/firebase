@@ -165,9 +165,8 @@ def contactToMe():
 @app.route('/api/digit-classification', methods=['POST'])
 def uploadImageBASE64():
     try:
-        reqData = request.json
-        data = reqData['image']
-        _format, str_img = data.split(';base64')
+        data = request.data
+        _format, str_img = data.decode().split(';base64')
         decoded_file = base64.b64decode(str_img)
         
         img = Image.open(io.BytesIO(decoded_file))
