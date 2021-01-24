@@ -163,7 +163,6 @@ def contactToMe():
         return f"An Error Occured: {e}"
 
 @app.route('/api/digit-classification', methods=['POST'])
-@cross_origin()
 def uploadImageBASE64():
     try:
         data = request.data
