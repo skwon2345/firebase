@@ -138,7 +138,7 @@ def getUsers():
 @app.route('/storage',methods=['GET'])
 def getStorageFile():
     try:
-        urls = conn.db.collection(u'files').order_by(u'date', direction=firestore.Query.DESCENDING).limit(10).stream()
+        urls = conn.db.collection(u'files').order_by(u'date', direction=firestore.Query.DESCENDING).limit(20).stream()
 
         my_dict = [url.to_dict() for url in urls]
         return jsonify(my_dict), 200
