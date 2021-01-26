@@ -177,11 +177,11 @@ def uploadImageBASE64():
         dim = (28,28) # keras.dataset has to shrink img to 28*28
         resized = cv2.resize(new_img, dim, interpolation = cv2.INTER_AREA)
 
-        print(resized.shape) # (8,8) for sklearn (28,28) for keras
+        # print(resized.shape) # (8,8) for sklearn (28,28) for keras
 
         result = resized.flatten()
 
-        print(result.shape) # (64,0) for sklearn (784,0) for keras
+        # print(result.shape) # (64,0) for sklearn (784,0) for keras
 
         # model = joblib.load('./models/keras_random_forest_joblib') # model trained with keras.dataset using random forest algorithm
         model = joblib.load('./models/keras_svm_model_joblib') # model trained with keras using Support Vector Machine
@@ -189,9 +189,8 @@ def uploadImageBASE64():
         # model = joblib.load('./models/sklearn_model_joblib') # model trained with sklearn.dataset using Logistic Regression
         # model = joblib.load('./models/keras_model_joblib') # model trained with kears.dataset
         ans = model.predict([result])
-        print(model.predict([result]))
 
-        return int(ans[0])
+        return jsonify({"success":int(ans[0])}), 200
 
     except Exception as e:
         print(e)
