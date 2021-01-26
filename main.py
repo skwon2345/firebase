@@ -191,7 +191,7 @@ def uploadImageBASE64():
         ans = model.predict([result])
         print(model.predict([result]))
 
-        return jsonify({"success":int(ans[0])}), 200
+        return int(ans[0])
 
     except Exception as e:
         print(e)
