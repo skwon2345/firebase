@@ -165,7 +165,7 @@ def contactToMe():
 @app.route('/api/digit-classification', methods=['POST'])
 def uploadImageBASE64():
     try:
-        return jsonify({"success":5}), 200
+        
         data = request.data
         _format, str_img = data.decode().split(';base64')
         decoded_file = base64.b64decode(str_img)
@@ -173,6 +173,7 @@ def uploadImageBASE64():
         img = Image.open(io.BytesIO(decoded_file))
         img_array = img_to_array(img)
 
+        return jsonify({"success":5}), 200
         new_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
         # dim = (8,8) # sklearn.dataset has to shrink img to 8*8
         dim = (28,28) # keras.dataset has to shrink img to 28*28
