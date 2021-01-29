@@ -178,13 +178,11 @@ def uploadImageBASE64():
         # dim = (8,8) # sklearn.dataset has to shrink img to 8*8
         dim = (28,28) # keras.dataset has to shrink img to 28*28
         resized = cv2.resize(new_img, dim, interpolation = cv2.INTER_AREA)
-
-        # print(resized.shape) # (8,8) for sklearn (28,28) for keras
-
+        return jsonify({"success":6=}), 200
         result = resized.flatten()
 
         # print(result.shape) # (64,0) for sklearn (784,0) for keras
-         return jsonify({"success":6=}), 200
+        
         # model = joblib.load('./models/keras_random_forest_joblib') # model trained with keras.dataset using random forest algorithm
         model = joblib.load('./models/keras_svm_model_joblib') # model trained with keras using Support Vector Machine
         # model = joblib.load('./models/sklearn_svm_model_joblib') # model trained with sklearn.dataset using Support Vector Machine
