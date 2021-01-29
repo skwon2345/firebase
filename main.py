@@ -173,7 +173,7 @@ def uploadImageBASE64():
         img = Image.open(io.BytesIO(decoded_file))
         img_array = img_to_array(img)
 
-        return jsonify({"success":5}), 200
+       # ==
         new_img = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
         # dim = (8,8) # sklearn.dataset has to shrink img to 8*8
         dim = (28,28) # keras.dataset has to shrink img to 28*28
@@ -184,7 +184,7 @@ def uploadImageBASE64():
         result = resized.flatten()
 
         # print(result.shape) # (64,0) for sklearn (784,0) for keras
-
+         return jsonify({"success":6=}), 200
         # model = joblib.load('./models/keras_random_forest_joblib') # model trained with keras.dataset using random forest algorithm
         model = joblib.load('./models/keras_svm_model_joblib') # model trained with keras using Support Vector Machine
         # model = joblib.load('./models/sklearn_svm_model_joblib') # model trained with sklearn.dataset using Support Vector Machine
