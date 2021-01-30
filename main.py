@@ -185,6 +185,8 @@ def uploadImageBASE64():
         
         # model = joblib.load('./models/keras_random_forest_joblib') # model trained with keras.dataset using random forest algorithm
         model = joblib.load('./models/keras_svm_model_joblib') # model trained with keras using Support Vector Machine
+
+        return '4'
         #return jsonify({"success":6}), 200
         # model = joblib.load('./models/sklearn_svm_model_joblib') # model trained with sklearn.dataset using Support Vector Machine
         # model = joblib.load('./models/sklearn_model_joblib') # model trained with sklearn.dataset using Logistic Regression
