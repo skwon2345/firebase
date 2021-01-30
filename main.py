@@ -200,7 +200,7 @@ def uploadImageBASE64():
 @app.route('/buySignal', methods=['GET'])
 def getBuySignals():
     try:
-        bSignals = conn.db.collection(u'history').where(u'recommended', u'==', False).order_by(u'date', direction=firestore.Query.DESCENDING).limit(10).stream()
+        bSignals = conn.db.collection(u'history').where(u'recommended', u'==', True).order_by(u'date', direction=firestore.Query.DESCENDING).limit(10).stream()
         my_dict = []
         today = str(datetime.date.today())
         for s in bSignals:
